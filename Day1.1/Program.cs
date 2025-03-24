@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DayOne2
+namespace Day1._1
 {
     public class Program
     {
@@ -11,7 +11,7 @@ namespace DayOne2
         {
             List<int> leftValuesList = new List<int>();
             List<int> rightValuesList = new List<int>();
-            List<int> totalSimilarityScoresList = new List<int>();
+            List<int> totalDistancesList = new List<int>();
 
             try
             {
@@ -40,26 +40,22 @@ namespace DayOne2
                 Console.WriteLine(e.Message);
             }
 
-            while (leftValuesList.Count > 0)
+            while (leftValuesList.Count > 0 && rightValuesList.Count > 0)
             {
-                int leftElement = leftValuesList.First();
-                int nrRecurences = rightValuesList.Count(x => x == leftElement);
+                int leftMin = leftValuesList.Min();
+                int rightMin = rightValuesList.Min();
 
-                if (nrRecurences > 0)
-                {
-                    Console.WriteLine($"Recurence found: {leftElement} appeared {nrRecurences} times");
-                    int similarityScore = nrRecurences * leftElement;
-                    totalSimilarityScoresList.Add(similarityScore);
-                }
-                else
-                {
-                    Console.WriteLine($"{leftElement} showed up {nrRecurences} number of times");
-                }
+                int distance = Math.Abs(leftMin - rightMin);
+                totalDistancesList.Add(distance);
 
-                leftValuesList.Remove(leftElement);
+                leftValuesList.Remove(leftMin);
+                rightValuesList.Remove(rightMin);
+
+                Console.WriteLine($"Left Min: {leftMin}, Right Min: {rightMin}, Distance: {distance}");
             }
-            int totalSimilarityScores = totalSimilarityScoresList.Sum();
-            Console.WriteLine("Total similarity score: " + totalSimilarityScores);
+
+            int totalDistance = totalDistancesList.Sum();
+            Console.WriteLine($"Total distance: {totalDistance}");
         }
     }
 }
